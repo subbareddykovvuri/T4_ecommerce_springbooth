@@ -46,8 +46,8 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/auth/seller/**").hasAuthority("SELLER")
 				.anyRequest().authenticated())
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		.exceptionHandling().authenticationEntryPoint(entryPoint).and()
-		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+		.exceptionHandling().authenticationEntryPoint(entryPoint);
 	}
 //	@Bean
 //	public RegistrationBean jwtAuthFilterRegister(JwtAuthenticationFilter filter) {

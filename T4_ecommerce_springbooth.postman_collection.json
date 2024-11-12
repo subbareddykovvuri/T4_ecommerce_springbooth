@@ -1,0 +1,368 @@
+{
+	"info": {
+		"_postman_id": "1cf0de6b-5165-4d0f-9a02-99d68548ddbc",
+		"name": "T4_ecommerce_springbooth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33830122"
+	},
+	"item": [
+		{
+			"name": "CONSUMER",
+			"item": [
+				{
+					"name": "Cart List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/auth/consumer/cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Cart",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"category\": {\r\n        \"categoryName\": \"Electronics\",\r\n        \"categoryId\": \"2\"\r\n    },\r\n    \"price\":\"98000.0\",\r\n    \"productName\":\"iPhone 12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/consumer/cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cpId\": 1,\r\n    \"product\": {\r\n        \"productId\": 2,\r\n        \"productName\": \"Crocin pain relief tablet\",\r\n        \"price\": 10.0,\r\n        \"category\": {\r\n            \"categoryName\": \"Medicines\"\r\n        }\r\n    },\r\n    \"quantity\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/consumer/cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product from cart",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"category\": {\r\n        \"categoryName\": \"Electronics\",\r\n        \"categoryId\": \"2\"\r\n    },\r\n    \"price\": \"98000.0\",\r\n    \"productName\": \"iPhone 12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/consumer/cart"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Define the authentication API details\r",
+							"const authUrl = 'http://localhost:8000/api/public/login';  // Authentication URL\r",
+							"const authBody = {\r",
+							"    username: 'jack',\r",
+							"    password: 'pass_word'\r",
+							"};\r",
+							"\r",
+							"// Make the API request to get the authentication token\r",
+							"pm.sendRequest({\r",
+							"    url: authUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify(authBody)\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else {\r",
+							"        // Extract token from the response\r",
+							"        const jsonData = res.text();\r",
+							"        const token = jsonData;  // Adjust based on your API response\r",
+							"\r",
+							"        // Set the token in an environment variable\r",
+							"        pm.globals.set('authToken', token);\r",
+							"    }\r",
+							"});\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "SELLER",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/auth/seller/product"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/auth/seller/product/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"category\": {\r\n        \"categoryName\": \"Electronics\",\r\n        \"categoryId\": \"2\"\r\n    },\r\n    \"price\":\"98000.0\",\r\n    \"productName\":\"iPhone 12 Pro Max\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/seller/product"
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 1,\r\n    \"category\": {\r\n        \"categoryName\": \"Electronics\",\r\n        \"categoryId\": \"2\"\r\n    },\r\n    \"price\": \"98000.0\",\r\n    \"productName\": \"iPhone 12 Pro Max\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/seller/product"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Jwt",
+								"value": "{{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/auth/seller/product/1"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Define the authentication API details\r",
+							"const authUrl = 'http://localhost:8000/api/public/login';  // Authentication URL\r",
+							"const authBody = {\r",
+							"    username: 'apple',\r",
+							"    password: 'pass_word'\r",
+							"};\r",
+							"\r",
+							"// Make the API request to get the authentication token\r",
+							"pm.sendRequest({\r",
+							"    url: authUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify(authBody)\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else {\r",
+							"        // Extract token from the response\r",
+							"        const jsonData = res.text();\r",
+							"        const token = jsonData;  // Adjust based on your API response\r",
+							"\r",
+							"        // Set the token in an environment variable\r",
+							"        pm.globals.set('authToken', token);\r",
+							"    }\r",
+							"});\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"apple\",\r\n    \"password\": \"pass_word\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/api/public/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Product search",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/public/product/search?keyword=apple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"public",
+						"product",
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "apple"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
